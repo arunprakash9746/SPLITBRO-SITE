@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pay with UPI · Splitbro</title>
+  <title>Pay with UPI · Splitsy</title>
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1f2933; text-align: center; }
     h1 { color: #1DB954; }
@@ -14,10 +14,12 @@
     .secondary { background: #fff; border: 2px solid #1DB954; color: #1DB954; }
     .note { color: #52606d; font-size: 14px; }
     .hidden { display: none; }
+    .motto { margin-top: -8px; color: #557; }
   </style>
 </head>
 <body>
-  <h1>Splitbro</h1>
+  <h1>Splitsy</h1>
+  <p class="motto">Split smart. Settle with UPI.</p>
   <div id="pay" class="hidden">
     <p>Pay <strong id="name"></strong></p>
     <div class="amount" id="amount"></div>
@@ -25,7 +27,7 @@
     <a class="button primary" id="open" href="#">Pay with a UPI app</a>
     <div class="upi">UPI ID: <strong id="upi"></strong></div>
     <button class="button secondary" id="copy" type="button">Copy UPI ID</button>
-    <p class="note">The UPI app opens with the amount filled in; you confirm with your UPI PIN. If it doesn't open or the payment is declined, copy the UPI ID and pay from your UPI app. Splitbro never handles the money.</p>
+    <p class="note">The UPI app opens with the amount filled in; you confirm with your UPI PIN. If it doesn't open or the payment is declined, copy the UPI ID and pay from your UPI app. Splitsy never handles the money.</p>
   </div>
   <p id="invalid" class="hidden">This payment link is incomplete. Ask your friend to send it again.</p>
   <script>
