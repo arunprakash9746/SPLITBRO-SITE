@@ -34,7 +34,7 @@
     var pn = (p.get('pn') || '').trim().slice(0, 60);
     var am = (p.get('am') || '').trim();
     var tn = (p.get('tn') || '').trim().slice(0, 60);
-    var validUpi = /^[A-Za-z0-9._-]{2,256}@[A-Za-z][A-Za-z0-9]{1,63}$/.test(pa);
+    var validUpi = /^[A-Za-z0-9._-]{2,255}@[A-Za-z][A-Za-z0-9]{1,63}$/.test(pa);
     var validAmount = /^\d{1,7}(\.\d{1,2})?$/.test(am) && parseFloat(am) > 0;
     if (validUpi && validAmount) {
       document.getElementById('pay').classList.remove('hidden');
