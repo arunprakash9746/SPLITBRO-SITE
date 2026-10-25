@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pay with UPI · Splitbro</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #1f2933; text-align: center; }
+    h1 { color: #1DB954; }
+    .amount { font-size: 36px; font-weight: bold; margin: 8px 0; }
+    .upi { background: #eefaf2; border-radius: 12px; padding: 12px; margin: 16px 0; word-break: break-all; }
+    .button { display: block; width: 100%; box-sizing: border-box; padding: 14px; margin: 12px 0; border-radius: 28px; border: 0; text-decoration: none; font-weight: 600; font-size: 16px; cursor: pointer; }
+    .primary { background: #1DB954; color: #fff; }
+    .secondary { background: #fff; border: 2px solid #1DB954; color: #1DB954; }
+    .note { color: #52606d; font-size: 14px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Splitbro</h1>
+  <div id="pay" class="hidden">
+    <p>Pay <strong id="name"></strong></p>
+    <div class="amount" id="amount"></div>
+    <p class="note" id="reason"></p>
+    <a class="button primary" id="open" href="#">Pay with a UPI app</a>
+    <div class="upi">UPI ID: <strong id="upi"></strong></div>
+    <button class="button secondary" id="copy" type="button">Copy UPI ID</button>
+    <p class="note">The UPI app opens with the amount filled in; you confirm with your UPI PIN. If it doesn't open or the payment is declined, copy the UPI ID and pay from your UPI app. Splitbro never handles the money.</p>
+  </div>
+  <p id="invalid" class="hidden">This payment link is incomplete. Ask your friend to send it again.</p>
+  <script>
+    var p = new URLSearchParams(location.search);
+    var pa = (p.get('pa') || '').trim();
+    var pn = (p.get('pn') || '').trim().slice(0, 60);
+    var am = (p.get('am') || '').trim();
+    var tn = (p.get('tn') || '').trim().slice(0, 60);
+    var validUpi = /^[A-Za-z0-9._-]{2,256}@[A-Za-z][A-Za-z0-9]{1,63}$/.test(pa);
+    var validAmount = /^\d{1,7}(\.\d{1,2})?$/.test(am) && parseFloat(am) > 0;
+    if (validUpi && validAmount) {
+      document.getElementById('pay').classList.remove('hidden');
+      document.getElementById('name').textContent = pn || pa;
+      document.getElementById('amount').textContent = '\u20B9' + parseFloat(am).toFixed(2);
+      document.getElementById('reason').textContent = tn;
+      document.getElementById('upi').textContent = pa;
+      var query = 'pa=' + encodeURIComponent(pa) +
+        '&pn=' + encodeURIComponent(pn || pa) +
+        '&am=' + encodeURIComponent(parseFloat(am).toFixed(2)) +
+        '&cu=INR' + (tn ? '&tn=' + encodeURIComponent(tn) : '');
+      document.getElementById('open').href = 'upi://pay?' + query;
+      document.getElementById('copy').addEventListener('click', function () {
+        var button = this;
+        navigator.clipboard.writeText(pa).then(function () {
+          button.textContent = 'Copied!';
+        });
+      });
+    } else {
+      document.getElementById('invalid').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
